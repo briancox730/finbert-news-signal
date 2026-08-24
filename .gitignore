@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets / local config
+.env
+
+# Local data + model caches (fixtures under data/fixtures/ are tracked)
+data_cache/
+*.local.parquet
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

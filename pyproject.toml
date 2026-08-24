@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "finbert-news-signal"
+version = "0.1.0"
+description = "Point-in-time news-sentiment signal pipeline: fetch -> score (FinBERT/lexicon) -> label -> cache -> evaluate."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "Brian Cox" }]
+keywords = ["nlp", "finbert", "sentiment", "quant", "event-study", "point-in-time"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "pyarrow>=12.0",
+    "httpx>=0.24",
+]
+
+[project.optional-dependencies]
+# Heavy transformer stack. The lexicon scorer is the default and needs NONE of this.
+finbert = [
+    "transformers>=4.30",
+    "torch>=2.0",
+]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+finbert-news-demo = "finbert_news_signal.demo:main"
+
+[project.urls]
+Homepage = "https://github.com/briancox730/finbert-news-signal"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/finbert_news_signal"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "C4", "SIM"]
+ignore = [
+    "SIM108",  # ternary-vs-if is a style call; keep explicit branches where clearer
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["finbert_news_signal"]
